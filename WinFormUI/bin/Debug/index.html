@@ -1,0 +1,263 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.js"></script>
+<head>
+    <title>枫林手写签批测试页面</title>
+    <style type="text/css">
+        .style1
+        {
+            font-size: xx-large;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF3399;
+        }
+       .style2
+        {
+            font-size: 16px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF3399;
+        }
+       .style3
+        {
+            font-size: 12px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #000000;
+        }
+		.style4
+        {
+            font-size: 12px;
+            font-family: 宋体, Arial, Helvetica, sans-serif;
+            color: #FF0000;
+        }
+   </style>
+   
+<script language="javascript" type="text/javascript">
+
+ var obj;
+ penwidth = 3;
+ width = 700;
+ height = 385;
+ linespace = 55;
+ lineNum = height / linespace;
+
+window.onload = function(){   
+                  obj = document.getElementById("HWPenSign"); 
+                  obj.HWSetBkColor(0xE0F8E0);  
+		  obj.HWSetCtlFrame(2, 0x000000); 
+		  obj.HWSetSeparatorLine(lineNum , 0x000000);       
+                }
+
+function Button1_onclick() {
+   var res;
+   obj.HWRegisterJSButtonCall(2, "Button3;button17;", "Button3_onclick;Button17_onclick;");
+   obj.HWMonitorWndEnable(300, 300, 400, 300);
+   res = obj.HWInitC(); 
+   alert(res);
+}
+
+function Button2_onclick() {
+   var stream;
+   stream = obj.HWCloseC();
+}
+
+function Button3_onclick() {
+   obj.HWClearPenSign();
+}
+
+
+function Button4_onclick() {
+   obj.HWMouseEnable(1);
+}
+
+function Button6_onclick() {
+   obj.HWSetPenColor(0x000000);   
+}
+
+function Button7_onclick() {
+   obj.HWSetPenColor(0xFF0000);   
+}
+
+function Button8_onclick() {
+   obj.HWSetPenColor(0x00FF00);   
+}
+
+function Button9_onclick() {
+   obj.HWSetPenColor(0x0000FF);   
+}
+
+function Button10_onclick() {
+    penwidth++;
+    if(penwidth >5)
+       penwidth = 5;
+    obj.HWSetPenWidth(penwidth);   
+}
+
+function Button11_onclick() {
+    penwidth--;
+    if(penwidth < 1)
+       penwidth = 1;
+    obj.HWSetPenWidth(penwidth);   
+}
+
+function Button14_onclick() {
+   var stream;
+   stream = obj.HWGetBase64Stream(3);
+   alert(stream);
+}
+   
+function Button15_onclick() { 
+   var res = obj.HWIsNeedSave();
+   if(res)
+   { 
+       obj.HWSaveFile("e:\\sign.png");
+   }
+   else
+   {
+       alert("No Sign Data");
+   }
+}
+
+function Button16_onclick() {
+   obj.HWSwitchMonitor(1,0);
+}
+
+function Button17_onclick() {
+   obj.HWMouseEnable(0);
+   obj.HWSwitchMonitor(0,0);
+}
+
+function Button20_onclick() {
+   obj.HWSetPenStatus(0);
+}
+
+function Button21_onclick() {
+   obj.HWSetPenStatus(1);
+}
+
+
+function Button30_onclick() {
+   obj.HWGetBase64ForActualSizeImg(2);
+}
+
+function Button31_onclick() {
+   var res = obj.HWIsNeedSave();
+   if(res)
+   {  
+       obj.HWSaveActualSizeImg("e:\\sign_2.png");
+   }
+   else
+   {
+       alert("No Sign Data");
+   }
+}
+
+
+function Button22_onclick(){
+   var width=$("#HWPenSign").width();//宽度
+   var height=$("#HWPenSign").height();//高度
+   if(width>=900){
+	   alert("已放至最大级别!");
+   }else{
+
+	   $("#HWPenSign").width((width+100));
+	   $("#HWPenSign").height((height+50));
+obj.HWSetSeparatorLine(lineNum , 0x000000);
+   }
+}
+function Button23_onclick(){
+   var width=$("#HWPenSign").width();//宽度
+   var height=$("#HWPenSign").height();//高度
+   if(width<=700){
+	   alert("已缩至最小级别!");
+   }else{
+
+	   $("#HWPenSign").width((width-100));
+	   $("#HWPenSign").height((height-50));
+obj.HWSetSeparatorLine(lineNum , 0x000000);
+   }
+}
+</script>
+
+</head>
+<body>
+    <p align="center"><b><span class="style1">枫林手写签批控件Demo</span><br class="style1" /></p>
+    <p style="margin-left: 40px"><b><span class="style2">Demo使用说明</span>:</p>
+    <p style="margin-left: 40px"><span class="style3"> (1) &quot;初始化设备&quot; ：打开设备，枫林手写板进入签字模式。 因为对设备是独占式的访问，所以在重新进行&quot;初始化设备&quot;动作之前，必须确保已经&quot;关闭设备&quot;。对应接口函数为HWInitialize()。<br /><br />(2) &quot;关闭设备&quot;：关闭设备，枫林手写板进入待机模式。对应接口函数为HWFinalize()。</span></p>
+    <p style="margin-left: 40px"><span class="style3">(3) &quot;重新签名&quot;: 清空手写控件界面及枫林手写板上的笔迹。对应接口函数为HWClearPenSign()。<br /><br />(4) &quot;笔宽加粗&quot;/&quot;笔宽减细&quot;：调整画笔的粗细，支持5级设置，默认为3级。对应接口函数为HWSetPenWidth()。<br /><br />(5) &quot;画笔颜色&quot;：设置画笔的颜色。默认为黑色。对应接口函数为HWSetPenColor()。<br><br>(6)&quot;压力笔&quot;/&quot;钢笔&quot;：&quot;压力笔&quot;模式下，笔迹会随着压感发生粗细变化。&quot;钢笔&quot;模式下，笔迹粗细不变。对应接口函数为HWSetPenMode()。</span></p>
+    <p style="margin-left: 40px"><span class="style3">(7)&quot;保存图像&quot;: 将图像保存至指定路径，对应接口函数为HWSaveFile()。调用此函数之前，请先调用HWSetFilePath()设置保存路径。支持图像格式为:bmp /jpg /png /gif。<br><br>(8)&quot;Base64Stream&quot;: 支持将图像转化为Base64数据流，以便于网络间的传输。</span></p>
+    <p style="margin-left: 40px"><span class="style3">各接口函数的参数和返回值详情，请查阅“枫林手写签批控件接口文档.doc”。</span></p>
+    <p style="margin-left: 40px"><br 
+            class="style1" />           		
+      <b>
+    </p>
+    <table width="90%" border="0" align="center" cellpadding="3" cellspacing="0">           
+       <tr class="style7">
+	   <td width="30%" vAlign="center" height="217" align="right">
+               <P>
+			       签字区域：            
+               </P>
+	   </td>  
+           <td  align="left">
+              <object id="HWPenSign"
+                    name="HWPenSign"
+                    classid="clsid:56C162AE-04DC-48E2-A5FC-D12D18B74240"
+                    width="100%"
+                    height="385">
+              </object>
+	   </td>
+       </tr>                       
+    </table>
+    <p>&nbsp;
+</p> 
+    <p>&nbsp;
+</p>
+    <p style="margin-left: 500px">
+          签名控制： 
+          <input id = "button1" type ="button" value="初始化设备" onclick ="return Button1_onclick()" />
+                &nbsp;&nbsp;
+          <input id = "button2" type ="button" value="关闭设备" onclick ="return Button2_onclick()" />
+                &nbsp;&nbsp; 
+          <input id="Button3" type="button" value="重新签名" onclick="return Button3_onclick()" />
+	        &nbsp;&nbsp; 
+          <input id="Button4" type="button" value="鼠标模式" onclick="return Button4_onclick()" />
+       	        <br><br>
+          画笔控制：
+<input id="Button22" type="button" value="放大" onclick="return Button22_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button23" type="button" value="缩小" onclick="return Button23_onclick()" /> 
+                 <br><br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  
+ 	  <input id="Button20" type="button" value="笔" onclick="return Button20_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button21" type="button" value="橡皮擦" onclick="return Button21_onclick()" /> 
+                 <br><br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  
+	  <input id="Button6" type="button" value="黑色" onclick="return Button6_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button7" type="button" value="红色" onclick="return Button7_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button8" type="button" value="绿色" onclick="return Button8_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button9" type="button" value="蓝色" onclick="return Button9_onclick()" />
+		<br><br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  
+          <input id="Button10" type="button" value="笔宽加粗" onclick="return Button10_onclick()" />
+		 &nbsp;&nbsp;&nbsp;
+          <input id="Button11" type="button" value="笔宽减细" onclick="return Button11_onclick()" /> 
+                 <br><br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;  
+            签名图像:
+          &nbsp;&nbsp;<input id="Button14" type="button" value="Base64Stream" onclick="return Button14_onclick()" />
+          &nbsp;&nbsp;&nbsp;
+          <input id="Button15" type="button" value="保存图像" onclick="return Button15_onclick()" /> 
+          &nbsp;&nbsp;
+	 <input id="Button30" type="button" value="获取实际图像base64数据流" onclick="return Button30_onclick()" />
+          &nbsp;&nbsp;&nbsp;
+	 <input id="Button31" type="button" value="获取实际区域图像" onclick="return Button31_onclick()" />
+          &nbsp;&nbsp;&nbsp;
+                <br><br>
+           切屏控制： 
+          <input id = "button16" type ="button" value="移至扩展屏" onclick ="return Button16_onclick()" />
+                &nbsp;&nbsp;
+          <input id = "button17" type ="button" value="移回主显示器" onclick ="return Button17_onclick()" />
+                <br><br>
+    </p>
+</body>
+</html>
+       
+        

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">  
+<html xmlns="http://www.w3.org/1999/xhtml">  
+<head>  
+    <title>test</title>  
+    <meta name="content-type" content="text/html; charset=utf-8">
+
+    <meta http-equlv="Content-Type" content="text/html;charset=utf-8">
+      
+    <script type="text/javascript">  
+          
+       window.onload=function(){  
+  
+var btn=document.getElementById('btnCallCSharpMethod');  
+btn.onclick=function(){  
+  
+MsgBox.Show('success...');//3、此处window.external相当于winform中设置的webBrowser.ObjectForScripting对象  
+  
+}  
+  var icard=document.getElementById('icard'); 
+icard.onclick=function(){
+	var result=ICardReader.Read();
+}
+
+  var finger=document.getElementById('finger'); 
+	finger.onclick=function(){
+		var result=FingerReader.Read();
+		alert(result);
+	}
+  var sign=document.getElementById('sign'); 
+	sign.onclick=function(){
+		var result=SignReader.Read();
+		alert(result);
+	}
+}  
+    </script>  
+  
+</head>  
+<body style='text-align:center;'>  
+   <input type='button' id='btnCallCSharpMethod' value='button' />  
+
+     <input type='button' id='icard' value='icard' />  
+     <input type='button' id='finger' value='finger' />  
+     <input type='button' id='sign' value='sign' />  
+
+</body>  
+</html>  
